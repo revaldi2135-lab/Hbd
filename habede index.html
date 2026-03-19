@@ -1,1 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Raginaru 🎂</title>
 
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:
+linear-gradient(rgba(255,182,193,0.3), rgba(255,105,180,0.3)),
+url("https://files.catbox.moe/ofiwwv.jpeg");
+background-size:cover;
+background-position:center;
+animation:bgMove 20s ease-in-out infinite alternate;
+}
+
+@keyframes bgMove{
+0%{background-position:center top;}
+100%{background-position:center bottom;}
+}
+
+.card{
+width:90%;
+max-width:350px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(20px);
+padding:20px;
+border-radius:25px;
+text-align:center;
+box-shadow:0 8px 30px rgba(0,0,0,0.2);
+animation:fade 0.5s ease;
+overflow:hidden;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1}
+}
+
+button{
+margin-top:10px;
+padding:10px;
+width:100%;
+border:none;
+border-radius:12px;
+background:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.hidden{display:none;}
+
+.slider{
+margin-top:10px;
+height:180px;
+overflow:hidden;
+border-radius:15px;
+}
+.slider img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.final-wrap{
+display:flex;
+gap:10px;
+margin-top:10px;
+align-items:flex-start;
+}
+
+.final-text{
+flex:1;
+text-align:left;
+max-height:200px;
+overflow-y:auto;
+}
+
+/* FIX SEMUA TEXT */
+p, h3, #text, #res{
+white-space:pre-wrap;
+word-break:break-word;
+line-height:1.6;
+}
+
+/* cake */
+.cake{
+width:60px;
+height:45px;
+background:#ff9aa2;
+border-radius:10px;
+position:relative;
+cursor:pointer;
+}
+
+.candle{
+width:6px;
+height:18px;
+background:white;
+position:absolute;
+top:-18px;
+left:50%;
+transform:translateX(-50%);
+}
+.candle::after{
+content:"";
+width:10px;
+height:12px;
+background:orange;
+position:absolute;
+top:-12px;
+left:50%;
+transform:translateX(-50%);
+border-radius:50%;
+}
+.candle.off::after{display:none;}
+
+.note{
+font-size:11px;
+opacity:0.6;
+margin-top:5px;
+}
+
+/* confetti */
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+top:-10px;
+animation:fall linear forwards;
+}
+@keyframes fall{
+to{transform:translateY(100vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="s1" class="card">
+<h3>Selamat Ulang Tahun Ginarr 🎂</h3>
+<p>just wanna say happy birthday to you gaada maksud apa apa ya!!, karena di kelas pernah bilang mau kasih sesuatu pas kumpul ada navir,lisa, aqil
+    jadi yaudah ini aja deh yang bisa gue kasih, iziin yak 😄
+</p>
+<button onclick="showStep('s2')">lanjut</button>
+</div>
+
+<div id="s2" class="card hidden">
+<h3>Pilih Lagu 🎧</h3>
+<button onclick="play(1)">HBD song</button>
+<button onclick="play(2)">myb yr favorite song??</button>
+</div>
+
+<audio id="a1" src="https://files.catbox.moe/jr2ha7.mp4"></audio>
+<audio id="a2" src="https://files.catbox.moe/yl6kee.mp3"></audio>
+
+<div id="s3" class="card hidden">
+<h3>Main dulu yak sebentaran😆</h3>
+<button onclick="startGame()">mulai bwang</button>
+</div>
+
+<div id="g1" class="card hidden">
+<p>Klik 20x dalam 5 detik</p>
+<p id="g1score">0 / 20</p>
+<button onclick="clickGame()">KLIK!</button>
+</div>
+
+<div id="g2" class="card hidden">
+<p id="hint">coba tebak angka 1-10 ajaa😆</p>
+<input id="guess" type="number">
+<button onclick="guessGame()">tebak</button>
+</div>
+
+<div id="g3" class="card hidden">
+<p id="seq"></p>
+<input id="answer">
+<button onclick="checkMemory()">jawab</button>
+</div>
+
+<div id="s4" class="card hidden">
+<h3>lu lebaran kapan nar?</h3>
+
+<button id="btnJumat" onclick="lebaran('jumat')">Jumat</button>
+<button id="btnSabtu" onclick="lebaran('sabtu')">Sabtu</button>
+
+<p id="res"></p>
+
+<button id="nextLebaran" class="hidden" onclick="showStep('s5')">
+lanjut
+</button>
+</div>
+
+<div id="s5" class="card hidden">
+<h3>Umur lu berapa..frgt?</h3>
+<button onclick="umur(16)">16 kocak</button>
+<button onclick="umur(17)">17 woii</button>
+</div>
+
+<div id="sThanks" class="card hidden">
+<p>btw terimakasih sudah mau menjalani link ini nar 😄</p>
+<button onclick="goFinal()">lanjut</button>
+</div>
+
+<div id="s6" class="card hidden">
+<h3 id="hasil"></h3>
+
+<div class="slider">
+<img id="slide" src="https://files.catbox.moe/tsp7aq.jpeg">
+</div>
+
+<div class="final-wrap">
+<div class="final-text">
+<p id="text"></p>
+</div>
+
+<div>
+<div class="cake" onclick="openCakeFlow()">
+<div class="candle" id="candle"></div>
+</div>
+<div class="note">klik lilin nar 🎂</div>
+</div>
+</div>
+</div>
+
+<div id="cakeFlow" class="card hidden">
+<h3>tiup dulu 😆</h3>
+<div class="cake" onclick="blowCandleFlow()">
+<div class="candle" id="candleFlow"></div>
+</div>
+<p id="cakeText"></p>
+<button onclick="backToFinal()" id="backBtn" style="display:none">balik</button>
+</div>
+
+<script>
+
+/* NAV */
+function showStep(id){
+document.querySelectorAll(".card").forEach(e=>e.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+}
+
+/* TYPING FIX GLOBAL */
+function typeText(el,text,speed=20){
+el.innerHTML="";
+let i=0;
+
+function t(){
+if(i<text.length){
+let char = text[i] === " " ? "&nbsp;" : text[i];
+el.innerHTML += char;
+i++;
+setTimeout(t,speed);
+}
+}
+t();
+}
+
+/* MUSIC */
+function play(x){
+document.getElementById("a"+x).play();
+setTimeout(()=>showStep("s3"),500);
+}
+
+/* GAME 1 */
+let score=0;
+function startGame(){
+showStep("g1");
+score=0;
+document.getElementById("g1score").innerText="0 / 20";
+
+let time=5;
+let timer=setInterval(()=>{
+time--;
+if(time<=0){
+clearInterval(timer);
+if(score>=20){
+startGuess();
+}else{
+startGame();
+}
+}
+},1000);
+}
+
+function clickGame(){
+score++;
+document.getElementById("g1score").innerText=score+" / 20";
+}
+
+/* GAME 2 */
+let target;
+function startGuess(){
+showStep("g2");
+target=Math.floor(Math.random()*10)+1;
+document.getElementById("guess").value="";
+}
+
+function guessGame(){
+let g=parseInt(document.getElementById("guess").value);
+if(!g) return;
+
+if(g==target){
+startMemory();
+}else if(g<target){
+document.getElementById("hint").innerText="⬆️ naik lagi";
+}else{
+document.getElementById("hint").innerText="⬇️ turunin";
+}
+}
+
+/* GAME 3 */
+let sequence="";
+function startMemory(){
+showStep("g3");
+sequence="";
+for(let i=0;i<4;i++) sequence+=Math.floor(Math.random()*10);
+
+let seq=document.getElementById("seq");
+seq.innerText=sequence;
+
+setTimeout(()=>seq.innerText="ketik ulang!",2500);
+document.getElementById("answer").value="";
+}
+
+function checkMemory(){
+if(document.getElementById("answer").value==sequence){
+showStep("s4");
+}else{
+startMemory();
+}
+}
+
+/* LEBARAN */
+function lebaran(x){
+document.getElementById("btnJumat").style.display="none";
+document.getElementById("btnSabtu").style.display="none";
+
+let txt = x==="jumat"
+? "OWH JUMAT pas banget dong sama ulang tahunnya, Minal 'Aidin wal-Faizin, maafinn gueee yaa 😄"
+: "jirss sabtu ikut NU yakk, okelah kalo gitu,,Minal 'Aidin wal-Faizin maafinn gue yak nar😆";
+
+typeText(document.getElementById("res"),txt,20);
+document.getElementById("nextLebaran").classList.remove("hidden");
+}
+
+/* UMUR */
+function umur(x){
+showStep("sThanks");
+
+if(x==16){
+window._hasil = "HBD gwinaar yang ke 16? boong ah masa iyaa, yauda deh😆";
+
+window._text = `hbd ya 🎂
+semoga di umur sekarang everything goes well for you
+
+semua yang lagi lo kejar pelan-pelan bisa ke achieve
+dan semoga lo selalu dikasih jalan yang baik ke depannya
+
+good luck juga buat PTN
+semoga lo keterima di tempat yang lo pengen
+semangat  mengejar nilai nya bos
+
+tap masa iya lu 16 nar... yaudah deh 😆
+di sini kata katanya sama aja ga beda jauh sama 17 wkwk`;
+
+}else{
+window._hasil = "Happy 17th nar, busee ga espeekk cuyy beneran 17?🔥";
+
+window._text = `hbd ya 🎂
+semoga di umur sekarang everything goes well for you
+
+semua yang lagi lo kejar pelan-pelan bisa ke achieve
+dan semoga lo selalu dikasih jalan yang baik ke depannya
+
+good luck juga buat PTN
+semoga lo keterima di tempat yang lo pengen
+semangat ngejar nilai nya bos, bantai bantai semester depan
+
+dan ya… welcome to 17 😆
+udah waktunya foto KTP, semoga fotonya ga zonk ya`;
+}
+}
+
+/* FINAL */
+function goFinal(){
+showStep("s6");
+document.getElementById("hasil").innerText=window._hasil;
+typeText(document.getElementById("text"),window._text,15);
+startSlider();
+confetti();
+}
+
+/* SLIDER */
+let photos=[
+"https://files.catbox.moe/tsp7aq.jpeg",
+"https://files.catbox.moe/7vd2xi.jpeg",
+"https://files.catbox.moe/em7asa.jpeg"
+];
+let i=0;
+function startSlider(){
+setInterval(()=>{
+i=(i+1)%photos.length;
+document.getElementById("slide").src=photos[i];
+},2000);
+}
+
+/* CONFETTI */
+function confetti(){
+for(let i=0;i<30;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*100+"vw";
+c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+c.style.animationDuration=(Math.random()*3+2)+"s";
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),4000);
+}
+}
+
+/* CAKE */
+function openCakeFlow(){
+showStep("cakeFlow");
+}
+
+function blowCandleFlow(){
+let c=document.getElementById("candleFlow");
+c.classList.add("off");
+document.getElementById("cakeText").innerText="whoop ditiup 😄";
+document.getElementById("backBtn").style.display="block";
+}
+
+function backToFinal(){
+showStep("s6");
+}
+
+</script>
+
+</body>
+</html>
